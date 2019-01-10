@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>delphi_srr2_radar_driver_wrapper</name>
+  <version>0.0.1</version>
+  <description>The delphi srr2 radar driver wrapper package</description>
+  <maintainer email="carma@todo.todo">carma</maintainer>
+  <license>BSD</license>
+  <author email="carma@todo.todo">carma</author>
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>cav_driver_utils</depend>
+  <depend>cav_msgs</depend>
+  <depend>delphi_srr_msgs</depend>
+  <depend>radar_msgs</depend>
+  <depend>roscpp</depend>
+</package>
