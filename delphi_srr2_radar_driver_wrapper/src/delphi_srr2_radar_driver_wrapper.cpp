@@ -39,6 +39,8 @@ void DelphiSrr2RadarDriverWrapper::initialize() {
 
     private_nh_->param<std::string>("sensor_frame", sensor_frame_, "srr2");
     private_nh_->param<double>("bounding_box_size", bounding_box_size_, 5);
+
+    last_update_time = ros::Time::now();
 }
 
 void DelphiSrr2RadarDriverWrapper::pre_spin()
@@ -93,6 +95,8 @@ void DelphiSrr2RadarDriverWrapper::detection_cb(const radar_msgs::RadarDetection
 
 void DelphiSrr2RadarDriverWrapper::publish_object_track()
 {
+    if(track_msg_ == 0)
+        return;
     radar_msgs::RadarTrackArray tracks;
     tracks.header.stamp = ros::Time::now();
     tracks.header.frame_id = sensor_frame_;
@@ -121,6 +125,8 @@ void DelphiSrr2RadarDriverWrapper::publish_object_track()
 
 void DelphiSrr2RadarDriverWrapper::publish_radar_status()
 {
+    if(status1_msg_ == 0 || status2_msg_ == 0 || status5_msg_ == 0)
+        return;
     radar_msgs::RadarStatus status;
     status.header.stamp = ros::Time::now();
     status.curvature = static_cast<short> (status1_msg_->CAN_TX_CURVATURE);
@@ -135,5 +141,8 @@ void DelphiSrr2RadarDriverWrapper::checkRadarTimeout()
     if(ros::Time::now() - last_update_time > ros::Duration(0.3))
     {
         status_.status = cav_msgs::DriverStatus::FAULT;
+    } else
+    {
+        status_.status = cav_msgs::DriverStatus::OPERATIONAL;
     }
 }
