@@ -24,6 +24,9 @@ DelphiSrr2RadarDriverWrapper::~DelphiSrr2RadarDriverWrapper() {}
 
 void DelphiSrr2RadarDriverWrapper::initialize() {
 
+    // Override spin rate
+    spin_rate_ = 50;
+
     // Set driver type
     status_.sensor = true;
 
@@ -37,8 +40,8 @@ void DelphiSrr2RadarDriverWrapper::initialize() {
     object_track_pub_ = nh_->advertise<radar_msgs::RadarTrackArray>("radar/srr/tracks_raw", 1);
     radar_status_pub_ = nh_->advertise<radar_msgs::RadarStatus>("radar/srr/status", 1);
 
-    private_nh_->param<std::string>("sensor_frame", sensor_frame_, "srr2");
-    private_nh_->param<double>("bounding_box_size", bounding_box_size_, 5);
+    private_nh_->param<double>("bounding_box_size", bounding_box_size_, 1);
+    private_nh_->param<double>("driver_timeout", driver_timeout_, 0.3);
 
     last_update_time = ros::Time::now();
 }
@@ -46,11 +49,13 @@ void DelphiSrr2RadarDriverWrapper::initialize() {
 void DelphiSrr2RadarDriverWrapper::pre_spin()
 {
     checkRadarTimeout();
+}
+
+void DelphiSrr2RadarDriverWrapper::post_spin()
+{
     publish_radar_status();
     publish_object_track();
 }
-
-void DelphiSrr2RadarDriverWrapper::post_spin() {}
 
 void DelphiSrr2RadarDriverWrapper::shutdown() {}
 
@@ -95,15 +100,17 @@ void DelphiSrr2RadarDriverWrapper::detection_cb(const radar_msgs::RadarDetection
 
 void DelphiSrr2RadarDriverWrapper::publish_object_track()
 {
-    if(track_msg_ == 0)
+    if(track_msg_ == nullptr)
         return;
     radar_msgs::RadarTrackArray tracks;
-    tracks.header.stamp = ros::Time::now();
-    tracks.header.frame_id = sensor_frame_;
+    tracks.header.stamp = track_msg_->header.stamp;
+    tracks.header.frame_id = track_msg_->header.frame_id;
     for(radar_msgs::RadarDetection object : track_msg_->detections)
     {
         radar_msgs::RadarTrack track;
         track.track_id = object.detection_id;
+        // An imaginary 2-D bounding box is put on the detected point.
+        // Its boundaries are parallel with vehicle x or y axix and its size is configurable.
         geometry_msgs::Polygon bounding_box;
         geometry_msgs::Point32 point1, point2, point3, point4;
         point1.x = static_cast<float> (object.position.x + 0.5 * bounding_box_size_);
@@ -125,10 +132,11 @@ void DelphiSrr2RadarDriverWrapper::publish_object_track()
 
 void DelphiSrr2RadarDriverWrapper::publish_radar_status()
 {
-    if(status1_msg_ == 0 || status2_msg_ == 0 || status5_msg_ == 0)
+    if(status1_msg_ == nullptr || status2_msg_ == nullptr || status5_msg_ == nullptr)
         return;
     radar_msgs::RadarStatus status;
-    status.header.stamp = ros::Time::now();
+    status.header.stamp = status1_msg_->header.stamp;
+    status.header.frame_id = status1_msg_->header.frame_id;
     status.curvature = static_cast<short> (status1_msg_->CAN_TX_CURVATURE);
     status.yaw_rate = status1_msg_->CAN_TX_YAW_RATE_CALC;
     status.vehicle_speed = status1_msg_->CAN_TX_VEHICLE_SPEED_CALC;
@@ -138,7 +146,7 @@ void DelphiSrr2RadarDriverWrapper::publish_radar_status()
 
 void DelphiSrr2RadarDriverWrapper::checkRadarTimeout()
 {
-    if(ros::Time::now() - last_update_time > ros::Duration(0.3))
+    if(ros::Time::now() - last_update_time > ros::Duration(driver_timeout_))
     {
         status_.status = cav_msgs::DriverStatus::FAULT;
     } else
