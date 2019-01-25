@@ -44,13 +44,15 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 file(GLOB_RECURSE headers */*.hpp */*.h)
+add_library(delphi_srr2_driver_wrapper_worker_library src/delphi_srr2_radar_driver_wrapper_worker.cpp)
+add_dependencies(delphi_srr2_driver_wrapper_worker_library ${catkin_EXPORTED_TARGETS})
 add_executable( ${PROJECT_NAME}_node
         ${headers}
         src/main.cpp
         src/delphi_srr2_radar_driver_wrapper.cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries( ${PROJECT_NAME}_node ${catkin_LIBRARIES})
+target_link_libraries( ${PROJECT_NAME}_node ${catkin_LIBRARIES} delphi_srr2_driver_wrapper_worker_library)
 
 #############
 ## Install ##
@@ -92,4 +94,4 @@ install(DIRECTORY
 
 ## Add gtest based cpp test target and link libraries
 catkin_add_gtest(${PROJECT_NAME}-test test/test_delphi_srr2_radar_driver_wrapper.cpp)
-
+target_link_libraries(${PROJECT_NAME}-test delphi_srr2_driver_wrapper_worker_library)
