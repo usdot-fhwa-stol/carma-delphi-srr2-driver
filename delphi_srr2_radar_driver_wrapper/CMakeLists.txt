@@ -47,7 +47,8 @@ file(GLOB_RECURSE headers */*.hpp */*.h)
 add_executable( ${PROJECT_NAME}_node
         ${headers}
         src/main.cpp
-        src/delphi_srr2_radar_driver_wrapper.cpp)
+        src/delphi_srr2_radar_driver_wrapper.cpp
+        src/delphi_srr2_radar_driver_wrapper_worker.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries( ${PROJECT_NAME}_node ${catkin_LIBRARIES})

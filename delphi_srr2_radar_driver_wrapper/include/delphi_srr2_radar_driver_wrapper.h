@@ -17,10 +17,8 @@
  */
 
 #include <driver_wrapper/driver_wrapper.h>
-#include <delphi_srr_msgs/SrrStatus1.h>
-#include <delphi_srr_msgs/SrrStatus2.h>
 #include <delphi_srr_msgs/SrrStatus5.h>
-#include <radar_msgs/RadarDetectionArray.h>
+#include "delphi_srr2_radar_driver_wrapper_worker.h"
 
 class DelphiSrr2RadarDriverWrapper : public cav::DriverWrapper
 {
@@ -33,9 +31,9 @@ class DelphiSrr2RadarDriverWrapper : public cav::DriverWrapper
 
     delphi_srr_msgs::SrrStatus1ConstPtr status1_msg_;
     delphi_srr_msgs::SrrStatus2ConstPtr status2_msg_;
-    delphi_srr_msgs::SrrStatus5ConstPtr status5_msg_;
     radar_msgs::RadarDetectionArrayConstPtr track_msg_;
 
+    DelphiSrr2RadarDriverWrapperWorker worker_;
     ros::Time last_update_time_;
     double bounding_box_size_;
     double driver_timeout_;
