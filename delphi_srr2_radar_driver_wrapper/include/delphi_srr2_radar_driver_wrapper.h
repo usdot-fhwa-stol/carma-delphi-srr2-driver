@@ -36,8 +36,7 @@ class DelphiSrr2RadarDriverWrapper : public cav::DriverWrapper
     delphi_srr_msgs::SrrStatus5ConstPtr status5_msg_;
     radar_msgs::RadarDetectionArrayConstPtr track_msg_;
 
-    ros::Time last_update_time;
-
+    ros::Time last_update_time_;
     double bounding_box_size_;
     double driver_timeout_;
 

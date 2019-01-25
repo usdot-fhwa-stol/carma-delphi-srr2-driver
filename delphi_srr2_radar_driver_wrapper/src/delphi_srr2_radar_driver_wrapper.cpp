@@ -43,7 +43,7 @@ void DelphiSrr2RadarDriverWrapper::initialize() {
     private_nh_->param<double>("bounding_box_size", bounding_box_size_, 1);
     private_nh_->param<double>("driver_timeout", driver_timeout_, 0.3);
 
-    last_update_time = ros::Time::now();
+    last_update_time_ = ros::Time::now();
 }
 
 void DelphiSrr2RadarDriverWrapper::pre_spin()
@@ -61,19 +61,19 @@ void DelphiSrr2RadarDriverWrapper::shutdown() {}
 
 void DelphiSrr2RadarDriverWrapper::status1_cb(const delphi_srr_msgs::SrrStatus1ConstPtr &msg)
 {
-    last_update_time = ros::Time::now();
+    last_update_time_ = ros::Time::now();
     status1_msg_ = msg;
 }
 
 void DelphiSrr2RadarDriverWrapper::status2_cb(const delphi_srr_msgs::SrrStatus2ConstPtr &msg)
 {
-    last_update_time = ros::Time::now();
+    last_update_time_ = ros::Time::now();
     status2_msg_ = msg;
 }
 
 void DelphiSrr2RadarDriverWrapper::status5_cb(const delphi_srr_msgs::SrrStatus5ConstPtr &msg)
 {
-    last_update_time = ros::Time::now();
+    last_update_time_ = ros::Time::now();
     status5_msg_ = msg;
     switch(msg->CAN_TX_SYSTEM_STATUS)
     {
@@ -94,7 +94,7 @@ void DelphiSrr2RadarDriverWrapper::status5_cb(const delphi_srr_msgs::SrrStatus5C
 }
 
 void DelphiSrr2RadarDriverWrapper::detection_cb(const radar_msgs::RadarDetectionArrayConstPtr &msg) {
-    last_update_time = ros::Time::now();
+    last_update_time_ = ros::Time::now();
     track_msg_ = msg;
 }
 
@@ -146,7 +146,7 @@ void DelphiSrr2RadarDriverWrapper::publish_radar_status()
 
 void DelphiSrr2RadarDriverWrapper::checkRadarTimeout()
 {
-    if(ros::Time::now() - last_update_time > ros::Duration(driver_timeout_))
+    if(ros::Time::now() - last_update_time_ > ros::Duration(driver_timeout_))
     {
         status_.status = cav_msgs::DriverStatus::FAULT;
     } else
