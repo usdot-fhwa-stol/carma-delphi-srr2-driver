@@ -37,6 +37,7 @@ class DelphiSrr2RadarDriverWrapper : public cav::DriverWrapper
     ros::Time last_update_time_;
     double bounding_box_size_;
     double driver_timeout_;
+    double msg_timeout_;
 
 public:
     DelphiSrr2RadarDriverWrapper(int argc, char **argv, const std::string &name = "delphi_srr2_radar_driver_wrapper");

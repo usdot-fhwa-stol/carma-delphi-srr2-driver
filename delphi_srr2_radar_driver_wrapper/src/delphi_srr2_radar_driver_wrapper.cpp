@@ -27,6 +27,9 @@ void DelphiSrr2RadarDriverWrapper::initialize() {
     // Override spin rate
     spin_rate_ = 50;
 
+    // Messages timeout is 0.1 second in this spin rate:
+    msg_timeout_ = 1 / spin_rate_ * 5;
+
     // Set driver type
     status_.sensor = true;
 
@@ -43,7 +46,6 @@ void DelphiSrr2RadarDriverWrapper::initialize() {
     private_nh_->param<double>("bounding_box_size", bounding_box_size_, 1);
     private_nh_->param<double>("driver_timeout", driver_timeout_, 0.3);
 
-    last_update_time_ = ros::Time::now();
 }
 
 void DelphiSrr2RadarDriverWrapper::pre_spin()
@@ -78,13 +80,13 @@ void DelphiSrr2RadarDriverWrapper::status5_cb(const delphi_srr_msgs::SrrStatus5C
 }
 
 void DelphiSrr2RadarDriverWrapper::detection_cb(const radar_msgs::RadarDetectionArrayConstPtr &msg) {
-    last_update_time_ = ros::Time::now();
     track_msg_ = msg;
 }
 
 void DelphiSrr2RadarDriverWrapper::publish_object_track()
 {
-    if(track_msg_ == nullptr)
+    if(track_msg_ == nullptr ||
+       ros::Time::now() - track_msg_->header.stamp > ros::Duration(msg_timeout_))
     {
         return;
     }
@@ -93,7 +95,10 @@ void DelphiSrr2RadarDriverWrapper::publish_object_track()
 
 void DelphiSrr2RadarDriverWrapper::publish_radar_status()
 {
-    if(status1_msg_ == nullptr || status2_msg_ == nullptr)
+    if(status1_msg_ == nullptr ||
+       status2_msg_ == nullptr ||
+       ros::Time::now() - status1_msg_->header.stamp > ros::Duration(msg_timeout_) ||
+       ros::Time::now() - status2_msg_->header.stamp > ros::Duration(msg_timeout_))
     {
         return;
     }
@@ -102,11 +107,12 @@ void DelphiSrr2RadarDriverWrapper::publish_radar_status()
 
 void DelphiSrr2RadarDriverWrapper::checkRadarTimeout()
 {
-    if(ros::Time::now() - last_update_time_ > ros::Duration(driver_timeout_))
+    if(last_update_time_.isZero())
+    {
+        status_.status = cav_msgs::DriverStatus::OFF;
+    }
+    else if(ros::Time::now() - last_update_time_ > ros::Duration(driver_timeout_))
     {
         status_.status = cav_msgs::DriverStatus::FAULT;
-    } else
-    {
-        status_.status = cav_msgs::DriverStatus::OPERATIONAL;
     }
 }
