@@ -1,3 +1,4 @@
 <launch>
     <node name="delphi_srr2_radar_driver_wrapper" pkg="delphi_srr2_radar_driver_wrapper" type="delphi_srr2_radar_driver_wrapper_node" output="screen"/>
+    <include file="$(find delphi_srr)/launch/delphi_srr.launch"/>
 </launch>
