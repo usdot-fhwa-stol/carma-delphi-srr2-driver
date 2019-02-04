@@ -15,22 +15,22 @@
 #  the License.
 
 USERNAME=usdotfhwastol
-IMAGE=carma-delphi-esr-driver
+IMAGE=carma-delphi-ssr2-driver
 
 echo ""
-echo "##### CARMADelphiEsrDriver Docker Image Build Script #####"
+echo "##### CARMADelphiSsr2Driver Docker Image Build Script #####"
 echo ""
 
 cd "$(dirname "$0")"
 cd ..
 
 if [[ -z "$1" ]]; then
-    TAG=`cat delphi_esr_driver/package.xml | grep '<version>' | awk -F '[<>]' '/version/{print $3}'`
+    TAG=`cat delphi_srr2_radar_driver_wrapper/package.xml | grep '<version>' | awk -F '[<>]' '/version/{print $3}'`
 else
     TAG="$1"
 fi
 
-echo "Building docker image for CARMADelphiEsrDriver..."
+echo "Building docker image for CARMADelphiSsr2Driver..."
 echo "Final image name: $USERNAME/$IMAGE:$TAG"
 
 docker build --no-cache -t $USERNAME/$IMAGE:$TAG \
@@ -41,4 +41,4 @@ docker build --no-cache -t $USERNAME/$IMAGE:$TAG \
 docker tag $USERNAME/$IMAGE:$TAG $USERNAME/$IMAGE:latest
 
 echo ""
-echo "##### CARMADelphiEsrDriver Docker Image Build Done! #####"
+echo "##### CARMADelphiSsr2Driver Docker Image Build Done! #####"
