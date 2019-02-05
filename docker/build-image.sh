@@ -15,10 +15,10 @@
 #  the License.
 
 USERNAME=usdotfhwastol
-IMAGE=carma-delphi-ssr2-driver
+IMAGE=carma-delphi-srr2-driver
 
 echo ""
-echo "##### CARMADelphiSsr2Driver Docker Image Build Script #####"
+echo "##### CARMADelphiSrr2Driver Docker Image Build Script #####"
 echo ""
 
 cd "$(dirname "$0")"
@@ -30,7 +30,7 @@ else
     TAG="$1"
 fi
 
-echo "Building docker image for CARMADelphiSsr2Driver..."
+echo "Building docker image for CARMADelphiSrr2Driver..."
 echo "Final image name: $USERNAME/$IMAGE:$TAG"
 
 docker build --no-cache -t $USERNAME/$IMAGE:$TAG \
@@ -41,4 +41,4 @@ docker build --no-cache -t $USERNAME/$IMAGE:$TAG \
 docker tag $USERNAME/$IMAGE:$TAG $USERNAME/$IMAGE:latest
 
 echo ""
-echo "##### CARMADelphiSsr2Driver Docker Image Build Done! #####"
+echo "##### CARMADelphiSrr2Driver Docker Image Build Done! #####"
