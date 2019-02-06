@@ -66,6 +66,8 @@ unsigned char DelphiSrr2RadarDriverWrapperWorker::healthCheck(const delphi_srr_m
             return cav_msgs::DriverStatus::OPERATIONAL;
         case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_Faulty:
             return cav_msgs::DriverStatus::FAULT;
+        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_StartUp:
+        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_Configuration:
         case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_Blocked:
         case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_Hot:
             return cav_msgs::DriverStatus::DEGRADED;

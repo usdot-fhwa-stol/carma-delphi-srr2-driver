@@ -34,10 +34,10 @@ void DelphiSrr2RadarDriverWrapper::initialize() {
     status_.sensor = true;
 
     // Initilize all subscribers for SRR driver
-    detection_sub_ = nh_->subscribe("detections", 1, &DelphiSrr2RadarDriverWrapper::detection_cb, this);
-    status1_sub_ = nh_->subscribe("srr_status1", 1, &DelphiSrr2RadarDriverWrapper::status1_cb, this);
-    status2_sub_ = nh_->subscribe("srr_status2", 1, &DelphiSrr2RadarDriverWrapper::status2_cb, this);
-    status5_sub_ = nh_->subscribe("srr_status5", 1, &DelphiSrr2RadarDriverWrapper::status5_cb, this);
+    detection_sub_ = nh_->subscribe("as_tx/detections", 1, &DelphiSrr2RadarDriverWrapper::detection_cb, this);
+    status1_sub_ = nh_->subscribe("parsed_tx/srr_status1", 1, &DelphiSrr2RadarDriverWrapper::status1_cb, this);
+    status2_sub_ = nh_->subscribe("parsed_tx/srr_status2", 1, &DelphiSrr2RadarDriverWrapper::status2_cb, this);
+    status5_sub_ = nh_->subscribe("parsed_tx/srr_status5", 1, &DelphiSrr2RadarDriverWrapper::status5_cb, this);
 
     // Initilize all publishers for CARMA
     object_track_pub_ = nh_->advertise<radar_msgs::RadarTrackArray>("radar/tracks_raw", 1);
