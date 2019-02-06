@@ -85,24 +85,23 @@ void DelphiSrr2RadarDriverWrapper::detection_cb(const radar_msgs::RadarDetection
 
 void DelphiSrr2RadarDriverWrapper::publish_object_track()
 {
-    if(track_msg_ == nullptr ||
-       ros::Time::now() - track_msg_->header.stamp > ros::Duration(msg_timeout_))
+    if(track_msg_ == nullptr || prev_track_msg_ == track_msg_)
     {
         return;
     }
     object_track_pub_.publish(worker_.compositeRadarTrack(track_msg_, bounding_box_size_));
+    prev_track_msg_ = track_msg_;
 }
 
 void DelphiSrr2RadarDriverWrapper::publish_radar_status()
 {
-    if(status1_msg_ == nullptr ||
-       status2_msg_ == nullptr ||
-       ros::Time::now() - status1_msg_->header.stamp > ros::Duration(msg_timeout_) ||
-       ros::Time::now() - status2_msg_->header.stamp > ros::Duration(msg_timeout_))
+    if(status1_msg_ == nullptr || status2_msg_ == nullptr || (prev_status1_msg_ == status1_msg_ && prev_status2_msg_ == status2_msg_))
     {
         return;
     }
     radar_status_pub_.publish(worker_.compositeRadarStatus(status1_msg_, status2_msg_));
+    prev_status1_msg_ = status1_msg_;
+    prev_status2_msg_ = status2_msg_;
 }
 
 void DelphiSrr2RadarDriverWrapper::checkRadarTimeout()
