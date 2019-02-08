@@ -25,6 +25,12 @@ ARG BUILD_DATE="NULL"
 ARG VERSION="NULL"
 ARG VCS_REF="NULL"
 
+# Install AutonomousStuff Delphi SRR2 Driver Package
+RUN sudo apt update && sudo apt install apt-transport-https && \
+  sudo sh -c 'echo "deb [trusted=yes] https://s3.amazonaws.com/autonomoustuff-repo/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/autonomoustuff-public.list' && \
+  sudo apt update && \
+  sudo apt install ros-$ROS_DISTRO-delphi-srr
+
 LABEL org.label-schema.schema-version="1.0"
 LABEL org.label-schema.name="carma-delphi-srr2-driver"
 LABEL org.label-schema.description="Delphi SRR2 radar driver for the CARMA Platform"
