@@ -31,7 +31,7 @@ void DelphiSrr2RadarDriverWrapper::initialize() {
     msg_timeout_ = 1 / spin_rate_ * 5;
 
     // Set driver type
-    status_.sensor = true;
+    status_.radar = true;
 
     // Initilize all subscribers for SRR driver
     detection_sub_ = nh_->subscribe("as_tx/detections", 1, &DelphiSrr2RadarDriverWrapper::detection_cb, this);
