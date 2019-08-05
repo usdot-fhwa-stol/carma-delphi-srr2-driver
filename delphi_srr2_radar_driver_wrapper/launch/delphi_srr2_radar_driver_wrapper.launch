@@ -1,5 +1,15 @@
 <launch>
-    <node name="delphi_srr2_radar_driver_wrapper" pkg="delphi_srr2_radar_driver_wrapper" type="delphi_srr2_radar_driver_wrapper_node" output="screen"/>
+    <arg name="srr_frame_id" default="srr" />
+    <arg name="srr_upside_down" default="false" />
+    <arg name="srr_side" default="Left" /> <!-- Options are "Left" or "Right" -->
+    <arg name="filter_on_valid" default="false" /> <!-- TODO unclear argument without documentation -->
+    <arg name="use_kvaser" default="false" />
+    <arg name="kvaser_hardware_id" default="10051" />
+    <arg name="kvaser_circuit_id" default="0" />
+    <arg name="use_socketcan" default="false" />
+    <arg name="socketcan_device" default="can0" />
+
+    <node name="delphi_srr2_radar_driver_wrapper" pkg="delphi_srr2_radar_driver_wrapper" type="delphi_srr2_radar_driver_wrapper_node"/>
     <remap from="can_tx" to="received_messages"/>
     <include file="$(find delphi_srr)/launch/delphi_srr.launch"/>
 </launch>
