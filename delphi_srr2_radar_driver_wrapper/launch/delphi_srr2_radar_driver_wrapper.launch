@@ -11,5 +11,5 @@
 
     <node name="delphi_srr2_radar_driver_wrapper" pkg="delphi_srr2_radar_driver_wrapper" type="delphi_srr2_radar_driver_wrapper_node"/>
     <remap from="can_tx" to="received_messages"/>
-    <include file="$(find delphi_srr)/launch/delphi_srr.launch"/>
+    <include file="$(find delphi_srr)/launch/delphi_srr.launch" pass_all_args="true"/>
 </launch>
