@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>delphi_srr2_radar_driver_wrapper</name>
-  <version>0.0.2</version>
+  <version>1.0.0</version>
   <description>The delphi srr2 radar driver wrapper package</description>
   <maintainer email="carma@todo.todo">carma</maintainer>
   <license>Apache 2.0</license>
