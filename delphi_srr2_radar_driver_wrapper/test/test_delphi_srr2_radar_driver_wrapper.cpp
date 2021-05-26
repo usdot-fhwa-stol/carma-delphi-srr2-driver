@@ -58,10 +58,10 @@ TEST(DelphiSrr2RadarTest, testStatusComposition)
     status1.header.stamp.sec = 1;
     status1.header.stamp.nsec = 2;
     status1.header.frame_id = "srr";
-    status1.CAN_TX_CURVATURE = 3;
-    status1.CAN_TX_YAW_RATE_CALC = 4;
-    status1.CAN_TX_VEHICLE_SPEED_CALC = 5;
-    status2.CAN_TX_TEMPERATURE = 6;
+    status1.can_tx_curvature = 3;
+    status1.can_tx_yaw_rate_calc = 4;
+    status1.can_tx_vehicle_speed_calc = 5;
+    status2.can_tx_temperature = 6;
     delphi_srr_msgs::SrrStatus1ConstPtr status1_pointer(new delphi_srr_msgs::SrrStatus1(status1));
     delphi_srr_msgs::SrrStatus2ConstPtr status2_pointer(new delphi_srr_msgs::SrrStatus2(status2));
     radar_msgs::RadarStatus radar_status = worker.compositeRadarStatus(status1_pointer, status2_pointer);
@@ -78,13 +78,13 @@ TEST(DelphiSrr2RadarTest, testHeathCheck)
 {
     DelphiSrr2RadarDriverWrapperWorker worker;
     delphi_srr_msgs::SrrStatus5 status5;
-    status5.CAN_TX_SYSTEM_STATUS = delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_Running;
+    status5.can_tx_system_status = delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_RUNNING;
     delphi_srr_msgs::SrrStatus5ConstPtr status5_pointer(new delphi_srr_msgs::SrrStatus5(status5));
     EXPECT_EQ(1, worker.healthCheck(status5_pointer));
-    status5.CAN_TX_SYSTEM_STATUS = delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_Blocked;
+    status5.can_tx_system_status = delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_BLOCKED;
     status5_pointer.reset(new delphi_srr_msgs::SrrStatus5(status5));
     EXPECT_EQ(2, worker.healthCheck(status5_pointer));
-    status5.CAN_TX_SYSTEM_STATUS = delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_Faulty;
+    status5.can_tx_system_status = delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_FAULTY;
     status5_pointer.reset(new delphi_srr_msgs::SrrStatus5(status5));
     EXPECT_EQ(3, worker.healthCheck(status5_pointer));
 }
