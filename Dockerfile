@@ -13,7 +13,6 @@
 #  the License.
 
 FROM usdotfhwastol/carma-base:carma-system-3.7.0 as setup
-
 RUN mkdir ~/src
 COPY --chown=carma . /home/carma/src/
 RUN ~/src/docker/checkout.sh
