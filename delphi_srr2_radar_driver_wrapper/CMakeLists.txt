@@ -86,7 +86,7 @@ target_link_libraries( ${PROJECT_NAME}_node ${catkin_LIBRARIES} delphi_srr2_driv
 # )
 
 ## Mark executables and/or libraries for installation
-install(TARGETS ${PROJECT_NAME}_node
+install(TARGETS ${PROJECT_NAME}_node delphi_srr2_driver_wrapper_worker_library
         ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
