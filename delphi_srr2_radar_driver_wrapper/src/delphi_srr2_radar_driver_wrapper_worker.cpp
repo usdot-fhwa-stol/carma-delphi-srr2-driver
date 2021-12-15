@@ -51,25 +51,25 @@ radar_msgs::RadarStatus DelphiSrr2RadarDriverWrapperWorker::compositeRadarStatus
     radar_msgs::RadarStatus status;
     status.header.stamp = msg1->header.stamp;
     status.header.frame_id = msg1->header.frame_id;
-    status.curvature = static_cast<short> (msg1->CAN_TX_CURVATURE);
-    status.yaw_rate = msg1->CAN_TX_YAW_RATE_CALC;
-    status.vehicle_speed = msg1->CAN_TX_VEHICLE_SPEED_CALC;
-    status.temperature = static_cast<char> (msg2->CAN_TX_TEMPERATURE);
+    status.curvature = static_cast<short> (msg1->can_tx_curvature);
+    status.yaw_rate = msg1->can_tx_yaw_rate_calc;
+    status.vehicle_speed = msg1->can_tx_vehicle_speed_calc;
+    status.temperature = static_cast<char> (msg2->can_tx_temperature);
     return status;
 }
 
 unsigned char DelphiSrr2RadarDriverWrapperWorker::healthCheck(const delphi_srr_msgs::SrrStatus5ConstPtr &msg)
 {
-    switch(msg->CAN_TX_SYSTEM_STATUS)
+    switch(msg->can_tx_system_status)
     {
-        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_Running:
+        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_RUNNING:
             return cav_msgs::DriverStatus::OPERATIONAL;
-        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_Faulty:
+        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_FAULTY:
             return cav_msgs::DriverStatus::FAULT;
-        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_StartUp:
-        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_Configuration:
-        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_Blocked:
-        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_Hot:
+        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_STARTUP:
+        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_CONFIGURATION:
+        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_BLOCKED:
+        case delphi_srr_msgs::SrrStatus5::CAN_TX_SYSTEM_STATUS_HOT:
             return cav_msgs::DriverStatus::DEGRADED;
         default:
             return cav_msgs::DriverStatus::OFF;
