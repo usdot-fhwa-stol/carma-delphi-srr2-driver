@@ -12,7 +12,9 @@
 #  License for the specific language governing permissions and limitations under
 #  the License.
 
+
 FROM usdotfhwastol/carma-base:carma-system-3.10.0 as setup
+
 RUN mkdir ~/src
 COPY --chown=carma . /home/carma/src/
 RUN ~/src/docker/checkout.sh
