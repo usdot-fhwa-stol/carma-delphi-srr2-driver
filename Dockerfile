@@ -11,14 +11,14 @@
 #  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #  License for the specific language governing permissions and limitations under
 #  the License.
+FROM usdotfhwastoldev/carma-base:develop as setup
 
-FROM usdotfhwastoldev/carma-base:foxy-develop as setup
 RUN mkdir ~/src
 COPY --chown=carma . /home/carma/src/
 RUN ~/src/docker/checkout.sh
 RUN ~/src/docker/install.sh
 
-FROM usdotfhwastoldev/carma-base:foxy-develop
+FROM usdotfhwastoldev/carma-base:develop
 
 ARG BUILD_DATE="NULL"
 ARG VERSION="NULL"
