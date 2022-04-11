@@ -12,4 +12,5 @@
   <depend>delphi_srr_msgs</depend>
   <depend>radar_msgs</depend>
   <depend>roscpp</depend>
+  <build_depend>carma_cmake_common</build_depend>
 </package>
