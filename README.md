@@ -1,3 +1,7 @@
+| CicleCI Build Status | Sonar Code Quality | DockerHub Release |
+|------|-----|-----|
+[![CircleCI](https://img.shields.io/circleci/build/gh/usdot-fhwa-stol/carma-delphi-srr2-driver/develop?label=CircleCI)](https://app.circleci.com/pipelines/github/usdot-fhwa-stol/carma-delphi-srr2-driver?branch=develop) | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=usdot-fhwa-stol_CARMADelphiSrr2Driver&metric=alert_status)](https://sonarcloud.io/dashboard?id=usdot-fhwa-stol_CARMADelphiSrr2Driver) | [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/usdotfhwastol/carma-delphi-srr2-driver?label=carma-delphi-srr2-driver)](https://hub.docker.com/repository/docker/usdotfhwastol/carma-delphi-srr2-driver) 
+
 # CARMADelphiSrr2Driver
 CARMADelphiSrr2Driver is the Delphi SRR2 side radar system driver for use with the CARMA Platform
 
