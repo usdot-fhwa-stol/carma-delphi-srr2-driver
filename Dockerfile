@@ -12,7 +12,7 @@
 #  License for the specific language governing permissions and limitations under
 #  the License.
 
-FROM usdotfhwastol/carma-base:carma-system-3.8.0 as base
+FROM usdotfhwastol/carma-base:carma-system-3.8.0-fixed as base
 FROM base as setup
 
 RUN mkdir ~/carma_ws
