@@ -50,6 +50,7 @@ jobs:
           command: |
             source ${INIT_ENV}
             ./src/CARMADelphiSrr2Driver/docker/checkout.sh ${PWD}
+            sed -i '/colcon build/ s/$/ --packages-up-to delphi_srr2_radar_driver_wrapper/' ~/.ci-image/engineering_tools/code_coverage/make_with_coverage.bash
       - run:
           name: Build Driver
           command: |
