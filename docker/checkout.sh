@@ -24,5 +24,11 @@ if [[ -n ${1} ]]; then
       dir=${1}
 fi
 
-git clone https://github.com/usdot-fhwa-stol/carma-msgs.git ${dir}/src/CARMAMsgs --branch CARMASystem_3.1.0 --depth 1
-git clone https://github.com/usdot-fhwa-stol/carma-utils.git ${dir}/src/CARMAUtils --branch CARMASystem_3.1.0 --depth 1
+if [[ "$CI" == "true" ]]; then
+      BRANCH="develop"
+else
+      BRANCH="CARMASystem_3.1.0"
+fi
+
+git clone https://github.com/usdot-fhwa-stol/carma-msgs.git ${dir}/src/CARMAMsgs --branch "$BRANCH" --depth 1
+git clone https://github.com/usdot-fhwa-stol/carma-utils.git ${dir}/src/CARMAUtils --branch "$BRANCH" --depth 1
