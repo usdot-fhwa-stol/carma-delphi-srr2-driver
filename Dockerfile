@@ -11,7 +11,7 @@
 #  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #  License for the specific language governing permissions and limitations under
 #  the License.
-FROM usdotfhwastol/carma-base:carma-system-4.4.0 as setup
+FROM usdotfhwastoldev/carma-base:develop as setup
 
 ARG ROS1_PACKAGES=""
 ENV ROS1_PACKAGES=${ROS1_PACKAGES}
@@ -23,7 +23,7 @@ COPY --chown=carma . /home/carma/src/
 RUN ~/src/docker/checkout.sh
 RUN ~/src/docker/install.sh
 
-FROM usdotfhwastol/carma-base:carma-system-4.4.0
+FROM usdotfhwastoldev/carma-base:develop
 
 ARG BUILD_DATE="NULL"
 ARG VERSION="NULL"
